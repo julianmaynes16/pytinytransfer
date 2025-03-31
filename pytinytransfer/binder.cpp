@@ -1,6 +1,6 @@
 #include <pybind11/pybind11.h>
 #include <pybind11/numpy.h>
-#include "src/tinyTransfer.h"
+#include "src/tinytransfer/tinyTransfer.h"
 #include <string>
 
 
@@ -38,7 +38,7 @@ PYBIND11_MODULE(pytinytransfer, m) {
             }),
             pybind11::arg("data"), 
             pybind11::arg("packetId"),
-            pybind11::arg("log") = pybind11::none(),
+            pybind11::arg("log") = "",
             pybind11::arg("compressed") = true,
             pybind11::arg("isIntegrator") = false
         )

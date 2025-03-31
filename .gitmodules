@@ -1,0 +1,6 @@
+[submodule "pytinytransfer/pybind11"]
+	path = pytinytransfer/pybind11
+	url = https://github.com/pybind/pybind11.git
+[submodule "pytinytransfer/src/tinytransfer"]
+	path = pytinytransfer/src/tinytransfer
+	url = https://github.com/USCRPL/tinytransfer.git
