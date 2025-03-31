@@ -23,6 +23,7 @@ PYBIND11_MODULE(pytinytransfer, m) {
         .def("isValid", &TinyTransferRPCPacket::isValid);
 
     pybind11::class_<TinyTransferUpdatePacket>(m, "TinyTransferUpdatePacket")
+        .def_readwrite_static("hs_encoder", &TinyTransferUpdatePacket::hs_encoder)
         .def(pybind11::init<>())
         .def(
             pybind11::init<>([](pybind11::bytes data, uint32_t packetId, std::string log, bool compressed, bool isIntegrator){
@@ -32,9 +33,9 @@ PYBIND11_MODULE(pytinytransfer, m) {
                 
                 pybind11::buffer_info data_buf_log(pybind11::buffer(pybind11::bytes(log)).request());
                 char *data_ptr_log = reinterpret_cast<char *>(data_buf_log.ptr);
-                size_t updateInit = log.size();
+                size_t log_size = log.size();
 
-                return new TinyTransferUpdatePacket((uint8_t*)data_ptr_data, data_length, packetId, data_ptr_log, updateInit , compressed, isIntegrator);
+                return new TinyTransferUpdatePacket((uint8_t*)data_ptr_data, data_length, packetId, data_ptr_log, log_size, compressed, isIntegrator);
             }),
             pybind11::arg("data"), 
             pybind11::arg("packetId"),
