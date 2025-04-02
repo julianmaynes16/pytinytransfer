@@ -1,6 +1,6 @@
 #include <pybind11/pybind11.h>
 #include <pybind11/numpy.h>
-#include "src/tinytransfer/tinyTransfer.h"
+#include "tinyTransfer.h"
 #include <string>
 
 
@@ -23,7 +23,6 @@ PYBIND11_MODULE(pytinytransfer, m) {
         .def("isValid", &TinyTransferRPCPacket::isValid);
 
     pybind11::class_<TinyTransferUpdatePacket>(m, "TinyTransferUpdatePacket")
-        .def_readwrite_static("hs_encoder", &TinyTransferUpdatePacket::hs_encoder)
         .def(pybind11::init<>())
         .def(
             pybind11::init<>([](pybind11::bytes data, uint32_t packetId, std::string log, bool compressed, bool isIntegrator){

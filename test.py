@@ -23,9 +23,11 @@ print("UpdatePacket test...")
 ttupacket_default = pytinytransfer.TinyTransferUpdatePacket()
 print(ttupacket_default.serialize())
 
-ttupacket = pytinytransfer.TinyTransferUpdatePacket(b"dskjdfskjl", 27,"logggogog", False, True)
+ttupacket = pytinytransfer.TinyTransferUpdatePacket(b"ABCDEFG", 255,"HIJKLMNOP", False, False)
 
+print(hex(pytinytransfer.fletcher16(b"ABCDEFG")))
 
+print(ttupacket.serialize())
 
 
 

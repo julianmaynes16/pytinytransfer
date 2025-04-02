@@ -10,6 +10,15 @@
         "complex": "cpp",
         "valarray": "cpp",
         "ostream": "cpp",
-        "xlocale": "cpp"
-    }
+        "xlocale": "cpp",
+        "deque": "cpp",
+        "initializer_list": "cpp",
+        "list": "cpp",
+        "random": "cpp",
+        "stack": "cpp",
+        "utility": "cpp",
+        "xhash": "cpp",
+        "xtree": "cpp"
+    },
+    "cmake.sourceDirectory": "C:/Users/thela/OneDrive/Documents/pytinytransfer"
 }

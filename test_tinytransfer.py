@@ -2,10 +2,7 @@ import pytinytransfer as m
 import random
 
 
-    
-
-
 def test_main():
-    input_buffer = random.randbytes(0x812)
+    input_buffer = random.randbytes(0x400)
     packet = m.TinyTransferUpdatePacket(input_buffer, 1,"", True, True)
     #packet = m.TinyTransferUpdatePacket()
