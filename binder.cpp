@@ -26,9 +26,17 @@ PYBIND11_MODULE(pytinytransfer, m) {
         .def(pybind11::init<>())
         .def(
             pybind11::init<>([](pybind11::bytes data, uint32_t packetId, std::string log, bool compressed, bool isIntegrator){
+                
                 pybind11::buffer_info data_buf_data(pybind11::buffer(data).request());
                 char *data_ptr_data = reinterpret_cast<char *>(data_buf_data.ptr);
                 size_t data_length = static_cast<size_t>(data_buf_data.size);
+
+                if(data_length > TINY_TRANSFER_UPDATE_MAX_PAYLOAD_LENGTH){
+                    throw pybind11::value_error("Payload too large: can only be a max of 1024 bytes");
+                }
+                  
+                
+                
                 
                 pybind11::buffer_info data_buf_log(pybind11::buffer(pybind11::bytes(log)).request());
                 char *data_ptr_log = reinterpret_cast<char *>(data_buf_log.ptr);

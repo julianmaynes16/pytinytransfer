@@ -1,5 +1,6 @@
 import pytinytransfer
 import numpy as np
+import random
 
 print("Fletcher16 test...")
 print(pytinytransfer.fletcher16(b"dskdfsndfs"))
@@ -23,7 +24,9 @@ print("UpdatePacket test...")
 ttupacket_default = pytinytransfer.TinyTransferUpdatePacket()
 print(ttupacket_default.serialize())
 
-ttupacket = pytinytransfer.TinyTransferUpdatePacket(b"ABCDEFG", 255,"HIJKLMNOP", False, False)
+
+input_buffer = random.randbytes(0x402)
+ttupacket = pytinytransfer.TinyTransferUpdatePacket(input_buffer, 255,"HIJKLMNOP", True, False)
 
 print(hex(pytinytransfer.fletcher16(b"ABCDEFG")))
 
