@@ -7,8 +7,19 @@
 PYBIND11_MODULE(pytinytransfer, m) {
     pybind11::class_<TinyTransferUpdateParser>(m, "TinyTransferUpdateParser")
         .def(pybind11::init<>())
-        .def("processByte", &TinyTransferUpdateParser::processByte);
-    
+        .def("processByte", [](TinyTransferUpdateParser& self, uint8_t i_byte) -> pybind11::object {
+            return self.processByte(i_byte) ? pybind11::cast(self.completedPacket) : pybind11::object(pybind11::cast(nullptr));
+        })
+        .def("getState", [](TinyTransferUpdateParser& self) {
+            return self.state;
+        })
+        .def_readwrite("state", &TinyTransferUpdateParser::state)
+        .def_readwrite("soh", &TinyTransferUpdateParser::soh)
+        .def_readwrite("inputPacket", &TinyTransferUpdateParser::inputPacket)
+        .def_readwrite("completedPacket", &TinyTransferUpdateParser::completedPacket)
+        .def_readwrite("position", &TinyTransferUpdateParser::position);
+        
+
     pybind11::class_<TinyTransferRPCParser>(m, "TinyTransferRPCParser")
         .def(pybind11::init<>())
         .def("processByte", &TinyTransferRPCParser::processByte);
@@ -34,9 +45,6 @@ PYBIND11_MODULE(pytinytransfer, m) {
                 if(data_length > TINY_TRANSFER_UPDATE_MAX_PAYLOAD_LENGTH){
                     throw pybind11::value_error("Payload too large: can only be a max of 1024 bytes");
                 }
-                  
-                
-                
                 
                 pybind11::buffer_info data_buf_log(pybind11::buffer(pybind11::bytes(log)).request());
                 char *data_ptr_log = reinterpret_cast<char *>(data_buf_log.ptr);
@@ -51,10 +59,18 @@ PYBIND11_MODULE(pytinytransfer, m) {
             pybind11::arg("isIntegrator") = false
         )
         
-        .def("serialize", [](TinyTransferUpdatePacket self) {
+        .def("serialize", [](TinyTransferUpdatePacket& self) {
             uint8_t serialize_buf[sizeof(TinyTransferUpdatePacket)];
             uint16_t length = self.serialize(serialize_buf);
             return pybind11::bytes((char*)serialize_buf, length);
+        })
+
+        .def("isValid", &TinyTransferUpdatePacket::isValid)
+        .def("isCompressed", &TinyTransferUpdatePacket::isCompressed)
+        .def("decompressPayload", [](TinyTransferUpdatePacket& self){
+            uint8_t decompress_buf[sizeof(TinyTransferUpdatePacket)];
+            uint16_t length = self.decompressPayload(decompress_buf);
+            return pybind11::bytes((char*)decompress_buf, length);
         });
 
     m.def("fletcher16", [](pybind11::bytes data) {
