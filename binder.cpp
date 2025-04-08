@@ -1,3 +1,7 @@
+#define TINY_TRANSFER_UPDATE_MAX_PAYLOAD_LENGTH    1024
+#define TINY_TRANSFER_UPDATE_MAX_LOG_LENGTH        1024
+
+
 #include <pybind11/pybind11.h>
 #include <pybind11/numpy.h>
 #include "tinyTransfer.h"
@@ -71,7 +75,22 @@ PYBIND11_MODULE(pytinytransfer, m) {
             uint8_t decompress_buf[sizeof(TinyTransferUpdatePacket)];
             uint16_t length = self.decompressPayload(decompress_buf);
             return pybind11::bytes((char*)decompress_buf, length);
-        });
+        })
+        .def_readwrite("headerChecksum", &TinyTransferUpdatePacket::headerChecksum)
+        // .def_property("payload", [](TinyTransferUpdatePacket& self) -> pybind11::array {
+        //     auto dtype = pybind11::dtype(pybind11::format_descriptor<TinyTransferUpdatePacket>::format());
+        //     auto base = pybind11::array(dtype, {TINY_TRANSFER_UPDATE_MAX_PAYLOAD_LENGTH}, {sizeof()});
+        //     return pybind11::array(dtype, {TINY_TRANSFER_UPDATE_MAX_PAYLOAD_LENGTH}, {sizeof(TinyTransferUpdatePacket)}, self.payload, base);
+        //   }, [](TinyTransferUpdatePacket& self) {});
+        // .def_readwrite("log", &TinyTransferUpdatePacket::log)
+        .def_readwrite("startOfHeader", &TinyTransferUpdatePacket::startOfHeader)
+        .def_readwrite("packetId", &TinyTransferUpdatePacket::packetId)
+        .def_readwrite("packetFlags", &TinyTransferUpdatePacket::packetFlags)
+        .def_readwrite("payloadSize", &TinyTransferUpdatePacket::payloadSize)
+        .def_readwrite("payloadChecksum", &TinyTransferUpdatePacket::payloadChecksum)
+        .def_readwrite("headerChecksum", &TinyTransferUpdatePacket::headerChecksum)
+        .def_readwrite("logSize", &TinyTransferUpdatePacket::logSize);
+
 
     m.def("fletcher16", [](pybind11::bytes data) {
         pybind11::buffer_info data_buf(pybind11::buffer(data).request());
