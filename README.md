@@ -8,7 +8,7 @@ A Python wrapper for TinyTransfer
 
 2. Update PyTinyTransfer's dependencies
    
-   ```git submodule update --init --recursivee```
+   ```git submodule update --init --recursive```
 4. Install PyTinyTransfer using pip
    
    ```pip install -e <path/to/pytinytransfer>```
