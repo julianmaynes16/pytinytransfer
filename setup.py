@@ -127,10 +127,10 @@ class CMakeBuild(build_ext):
 # logic and declaration, and simpler if you include description/version in a file.
 setup(
     name="pytinytransfer",
-    version="0.0.1",
+    version="0.9.0",
     author="Julian Maynes",
-    author_email="jmaynes@usc.edu",
-    description="A test project using pybind11 and CMake",
+    author_email="julianmaynes16@gmail.com",
+    description="RPL communication protocol",
     long_description="",
     ext_modules=[CMakeExtension("pytinytransfer")],
     cmdclass={"build_ext": CMakeBuild},
