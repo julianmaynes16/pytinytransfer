@@ -1,11 +1,5 @@
-import os
-import re
-import subprocess
-import sys
-from pathlib import Path
-
-from setuptools import setup, Extension
-#from pybind11.setup_helpers import Pybind11Extension, built_ext
+from setuptools import setup
+from pybind11.setup_helpers import Pybind11Extension, build_ext
 
 # Convert distutils Windows platform specifiers to CMake -A arguments
 PLAT_TO_CMAKE = {
@@ -16,7 +10,7 @@ PLAT_TO_CMAKE = {
 }
 
 ext_modules = [
-    Extension(
+    Pybind11Extension(
         "pytinytransfer",
         ['binder.cpp'],
     ),
@@ -33,7 +27,7 @@ setup(
     description="RPL communication protocol",
     long_description="",
     ext_modules=ext_modules,
-    #cmdclass={"build_ext":build_ext},
+    cmdclass={"build_ext": build_ext},
     zip_safe=False,
     extras_require={"test": ["pytest>=6.0"]},
     python_requires=">=3.7",
