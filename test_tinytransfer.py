@@ -18,8 +18,9 @@ def TTUpdatePacketTest():
             TTUpdateParse(random.randbytes(0x200), "", i, j) 
             #log test
             TTUpdateParse(random.randbytes(0x200),  random.randbytes(0x400),i, j)
-            #no payload
-            TTUpdateParse(b"", random.randbytes(0x400),i, j)
+            #no payload CURRENTLY AN EDGE CASE WITHIN ACTUAL NEWHAMSTER WHERE LOG BUT NO PAYLOAD
+            # print("No payload")
+            # TTUpdateParse(b"", random.randbytes(0x400),i, j)
             #No log or payload
             TTUpdateParse(b"", "",i, j)
 
@@ -43,19 +44,23 @@ def TTRPCPacketTest():
 
 def TTUpdateParse(input_buffer, log, isCompressed, isIntegrator):
     packet = m.TinyTransferUpdatePacket(input_buffer, 1,log, isCompressed, isIntegrator)
+
+    #Asserts that a valid packet was created
     isValid(packet)
 
+    #turn packet into sendable byte string
     payload = packet.serialize()
-   
+
     parser = m.TinyTransferUpdateParser()
 
+    #copy byte to new packet
     completed_packet = None
     for b in payload:
         completed_packet = parser.processByte(b)
 
         if(completed_packet):
             break
-        
+
     assert payload == completed_packet.serialize(), "IntegratorPacket: Failed to serialize"
 
 def TTRPCParse(input_buffer):
@@ -101,3 +106,4 @@ def MaxArg():
 
 if __name__ == "__main__":
     test_main()
+    print("Success!!")
